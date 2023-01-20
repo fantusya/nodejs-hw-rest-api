@@ -1,25 +1,16 @@
 const express = require("express");
 // const createError = require("http-errors");
-const { NotFound } = require("http-errors");
-const Joi = require("joi");
-const contactsOperations = require("../../models/contacts");
+const { NotFound, BadRequest } = require("http-errors");
 
-const contactSchema = Joi.object({
-  name: Joi.string().required(),
-  email: Joi.string().required(),
-  phone: Joi.string().required(),
-});
+const contactsOperations = require("../../models/contacts");
+const validationSchemas = require("../../validationSchemas");
 
 const router = express.Router();
 
 router.get("/", async (req, res, next) => {
   try {
     const contacts = await contactsOperations.listContacts();
-    res.json({
-      status: "success",
-      code: 200,
-      data: contacts,
-    });
+    res.json(contacts);
   } catch (error) {
     next(error);
     // res.status(500).json({
@@ -46,11 +37,7 @@ router.get("/:id", async (req, res, next) => {
       // error.status = 404;
       // throw error;
     }
-    res.json({
-      status: "success",
-      code: 200,
-      data: result,
-    });
+    res.json(result);
   } catch (error) {
     next(error);
     // res.status(500).json({
@@ -63,18 +50,13 @@ router.get("/:id", async (req, res, next) => {
 
 router.post("/", async (req, res, next) => {
   try {
-    const { error } = contactSchema.validate(req.body);
+    const { error } = validationSchemas.addContact.validate(req.body);
     if (error) {
-      error.status = 400;
-      error.message = "missing required name field";
-      throw error;
+      throw new BadRequest("Missing required name field");
     }
+
     const result = await contactsOperations.addContact(req.body);
-    res.status(201).json({
-      status: "success",
-      code: 201,
-      data: result,
-    });
+    res.status(201).json(result);
   } catch (error) {
     next(error);
   }
@@ -88,9 +70,7 @@ router.delete("/:id", async (req, res, next) => {
       throw new NotFound(`Not found`);
     }
     res.json({
-      status: "success",
-      code: 204,
-      message: "contact deleted",
+      message: "Contact deleted",
     });
   } catch (error) {
     next(error);
@@ -99,22 +79,17 @@ router.delete("/:id", async (req, res, next) => {
 
 router.put("/:id", async (req, res, next) => {
   try {
-    const { error } = contactSchema.validate(req.body);
+    const { error } = validationSchemas.updateContact.validate(req.body);
     if (error) {
-      error.status = 400;
-      error.message = "missing required name field";
-      throw error;
+      throw new BadRequest("Missing required name field");
     }
+
     const { id } = req.params;
     const result = await contactsOperations.updateContact(id, req.body);
     if (!result) {
       throw new NotFound(`Not found`);
     }
-    res.json({
-      status: "success",
-      code: 200,
-      data: result,
-    });
+    res.json(result);
   } catch (error) {
     next(error);
   }

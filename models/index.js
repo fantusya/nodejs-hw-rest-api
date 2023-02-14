@@ -1,8 +1,7 @@
-const {
-  Contact,
-  addContact,
-  updateContact,
-  favoriteContact,
-} = require("./contact");
+const { Contact } = require("./contact");
+const { User } = require("./user");
 
-module.exports = { Contact, addContact, updateContact, favoriteContact };
+module.exports = {
+  Contact,
+  User,
+};

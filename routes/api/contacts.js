@@ -1,22 +1,33 @@
 const express = require("express");
-const ctrl = require("../../controllers");
-const { validation, ctrlWrapper } = require("../../middlewares");
-const { addContact, updateContact, favoriteContact } = require("../../models");
+
+const { contactsCtrls: ctrl } = require("../../controllers");
+const { auth, validation, ctrlWrapper } = require("../../middlewares");
+const {
+  addContact,
+  updateContact,
+  favoriteContact,
+} = require("../../models/contact");
 
 const router = express.Router();
 
-router.get("/", ctrlWrapper(ctrl.getAll));
+router.get("/", auth, ctrlWrapper(ctrl.getAll));
 
-router.get("/:id", ctrlWrapper(ctrl.getById));
+router.get("/:contactId", auth, ctrlWrapper(ctrl.getById));
 
-router.post("/", validation(addContact), ctrlWrapper(ctrl.add));
+router.post("/", auth, validation(addContact), ctrlWrapper(ctrl.add));
 
-router.delete("/:id", ctrlWrapper(ctrl.removeById));
+router.delete("/:contactId", auth, ctrlWrapper(ctrl.removeById));
 
-router.put("/:id", validation(updateContact), ctrlWrapper(ctrl.updateById));
+router.put(
+  "/:contactId",
+  auth,
+  validation(updateContact),
+  ctrlWrapper(ctrl.updateById)
+);
 
 router.patch(
-  "/:id/favorite",
+  "/:contactId/favorite",
+  auth,
   validation(favoriteContact),
   ctrlWrapper(ctrl.updateFavorite)
 );

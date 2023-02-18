@@ -2,6 +2,7 @@ const { User } = require("../../models");
 const path = require("path");
 const fs = require("fs/promises");
 const Jimp = require("jimp");
+const { v4 } = require("uuid");
 
 // const avatarsDir = path.join(__dirname, "../../", "public", "avatars");
 const avatarsDir = path.resolve("public/avatars");
@@ -9,7 +10,7 @@ const avatarsDir = path.resolve("public/avatars");
 const updateAvatar = async (req, res) => {
   const { path: tmpUpload, originalname } = req.file;
   const { _id: id } = req.user;
-  const imageName = `${id}_${originalname}`;
+  const imageName = `${v4()}_${originalname}`;
 
   try {
     const resultUpload = path.join(avatarsDir, imageName);

@@ -2,7 +2,7 @@ const dotenv = require("dotenv");
 dotenv.config();
 
 const request = require("supertest");
-const bcrypt = require("bcrypt");
+const bcrypt = require("bcryptjs");
 const jwt = require("jsonwebtoken");
 const gravatar = require("gravatar");
 const mongoose = require("mongoose");

@@ -6,7 +6,7 @@ const {
   joiRegisterSchema,
   joiLoginSchema,
   subscription,
-  verifyEmailSchema,
+  // verifyEmailSchema,
 } = require("../../models/user");
 
 const router = express.Router();
@@ -32,12 +32,12 @@ router.patch(
   ctrlWrapper(ctrl.updateAvatar)
 );
 
-router.post(
-  "/verify",
-  validation(verifyEmailSchema),
-  ctrlWrapper(ctrl.resendVerifyEmail)
-);
+// router.post(
+//   "/verify",
+//   validation(verifyEmailSchema),
+//   ctrlWrapper(ctrl.resendVerifyEmail)
+// );
 
-router.get("/verify/:verificationToken", ctrlWrapper(ctrl.verifyEmail));
+// router.get("/verify/:verificationToken", ctrlWrapper(ctrl.verifyEmail));
 
 module.exports = router;

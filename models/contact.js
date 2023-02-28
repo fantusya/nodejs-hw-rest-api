@@ -11,12 +11,12 @@ const contactSchema = Schema(
     },
     email: {
       type: String,
-      required: [true, "Set email for contact"],
+      // required: [true, "Set email for contact"],
     },
     phone: {
       type: String,
       required: [true, "Set phone number for contact"],
-      minlength: 2,
+      minlength: 5,
       maxlength: 30,
     },
     favorite: {
@@ -33,12 +33,12 @@ const contactSchema = Schema(
 
 const addContact = Joi.object({
   name: Joi.string().min(2).max(30).required(),
-  email: Joi.string().required(),
+  // email: Joi.string().required(),
   phone: Joi.string()
-    .pattern(
-      /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/
-    )
-    .min(2)
+    // .pattern(
+    //   /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/
+    // )
+    .min(5)
     .max(30)
     .required(),
   favorite: Joi.bool(),
@@ -51,7 +51,7 @@ const updateContact = Joi.object({
     .pattern(
       /\+?\d{1,4}?[-.\s]?\(?\d{1,3}?\)?[-.\s]?\d{1,4}[-.\s]?\d{1,4}[-.\s]?\d{1,9}/
     )
-    .min(2)
+    .min(5)
     .max(30),
   favorite: Joi.bool(),
 });

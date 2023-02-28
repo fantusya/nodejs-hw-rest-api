@@ -14,7 +14,7 @@ const verifyEmail = async (req, res) => {
     verificationToken: null,
   });
 
-  res.json({ message: "Verification successful" });
+  res.redirect(`http://localhost:3001/goit-react-hw-08-phonebook/login`);
 };
 
 module.exports = verifyEmail;

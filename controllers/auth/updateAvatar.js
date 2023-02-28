@@ -1,35 +1,51 @@
+const dotenv = require("dotenv");
+dotenv.config();
+const { CLOUD_NAME, API_KEY, API_SECRET} = process.env;
+
 const { User } = require("../../models");
-const path = require("path");
 const fs = require("fs/promises");
 const Jimp = require("jimp");
-const { v4 } = require("uuid");
+const cloudinary = require('cloudinary').v2;
 
-// const avatarsDir = path.join(__dirname, "../../", "public", "avatars");
-const avatarsDir = path.resolve("public/avatars");
+cloudinary.config({
+  cloud_name: CLOUD_NAME,
+  api_key: API_KEY,
+  api_secret: API_SECRET
+});
 
 const updateAvatar = async (req, res) => {
-  const { path: tmpUpload, originalname } = req.file;
+  const { path: tmpUpload } = req.file;
   const { _id: id } = req.user;
-  const imageName = `${v4()}_${originalname}`;
-
   try {
-    const resultUpload = path.join(avatarsDir, imageName);
-
-    const image = await Jimp.read(tmpUpload);
-    await image
-      .autocrop()
-      .cover(
-        250,
-        250,
-        Jimp.HORIZONTAL_ALIGN_CENTER || Jimp.VERTICAL_ALIGN_MIDDLE
-      )
-      .writeAsync(tmpUpload);
-
-    await fs.rename(tmpUpload, resultUpload);
-
-    const avatarURL = path.join("public", "avatars", imageName);
-    await User.findByIdAndUpdate(id, { avatarURL }, { new: true });
-    res.json({ avatarURL });
+    const result = await cloudinary.uploader.upload(tmpUpload, {
+      folder: "avatars",
+      transformation: {
+        width: 40,
+        // crop: "fill"
+      }
+    },
+      (error, result) => {
+        console.log("upload error", error);
+        return result;
+      }
+    );
+    
+    const user = await User.findOne({ _id: id });
+    if (user.idCloudAvatar) {
+      await cloudinary.uploader.destroy(user.idCloudAvatar, (error, result) => {
+      console.log("destroy error", error);
+      });
+    };
+    
+    const updatedUser = await User.findByIdAndUpdate({ _id: id },
+      {
+        avatarURL: result.secure_url,
+        idCloudAvatar: result.public_id
+      },
+      { new: true });
+    await fs.unlink(tmpUpload);
+    
+    res.json({ avatarURL: updatedUser.avatarURL });
   } catch (error) {
     await fs.unlink(tmpUpload);
     throw error;

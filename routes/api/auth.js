@@ -6,7 +6,7 @@ const {
   joiRegisterSchema,
   joiLoginSchema,
   subscription,
-  // verifyEmailSchema,
+  verifyEmailSchema,
 } = require("../../models/user");
 
 const router = express.Router();
@@ -25,7 +25,7 @@ router.patch(
   ctrlWrapper(ctrl.updateSubscription)
 );
 
-router.patch(
+router.post(
   "/avatars",
   auth,
   upload.single("avatar"),
@@ -33,11 +33,27 @@ router.patch(
 );
 
 // router.post(
-//   "/verify",
-//   validation(verifyEmailSchema),
-//   ctrlWrapper(ctrl.resendVerifyEmail)
+//   "/avatars",
+//   auth,
+//   upload.single("avatar"),
+//   (req, res) => {
+//     try {
+//       if (req.file) {
+//         console.log(req.file);
+//         res.json(req.file);
+//       }
+//     } catch (error) {
+//       console.log(error);
+//     }
+//   }
 // );
 
-// router.get("/verify/:verificationToken", ctrlWrapper(ctrl.verifyEmail));
+router.post(
+  "/verify",
+  validation(verifyEmailSchema),
+  ctrlWrapper(ctrl.resendVerifyEmail)
+);
+
+router.get("/verify/:verificationToken", ctrlWrapper(ctrl.verifyEmail));
 
 module.exports = router;

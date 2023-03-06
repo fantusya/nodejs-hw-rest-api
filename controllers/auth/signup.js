@@ -14,7 +14,7 @@ const signup = async (req, res) => {
   }
 
   const verificationToken = v4();
-  const avatarURL = gravatar.url(email, { s: "40" });
+  const avatarURL = gravatar.url(email, { s: "50" });
 
   const newUser = new User({
     email,
@@ -28,14 +28,19 @@ const signup = async (req, res) => {
   const mailBody = {
     to: email,
     subject: "Confirm Your Email",
-    html: `<a target="_blank" href="http://localhost:3000/api/users/verify/${verificationToken}">Click here to confirm your email.</a>`,
+    html: `<a target="_blank" href="https://my-phonebook-app.herokuapp.com/api/users/verify/${verificationToken}">Click here to confirm your email.</a>`,
   };
   await sendEmail(mailBody);
 
   res
     .status(201)
-    .json({ email, subscription, avatarURL, verificationToken, verify: newUser.verify });
-
+    .json({
+      email,
+      subscription,
+      avatarURL,
+      verificationToken,
+      verify: newUser.verify,
+    });
 };
 
 module.exports = signup;

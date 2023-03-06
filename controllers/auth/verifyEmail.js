@@ -14,7 +14,9 @@ const verifyEmail = async (req, res) => {
     verificationToken: null,
   });
 
-  res.redirect(`http://localhost:3001/goit-react-hw-08-phonebook/login`);
+  res.redirect(
+    `https://fantusya.github.io/goit-react-hw-08-phonebook/goit-react-hw-08-phonebook/login`
+  );
 };
 
 module.exports = verifyEmail;

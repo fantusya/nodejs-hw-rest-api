@@ -32,22 +32,6 @@ router.post(
   ctrlWrapper(ctrl.updateAvatar)
 );
 
-// router.post(
-//   "/avatars",
-//   auth,
-//   upload.single("avatar"),
-//   (req, res) => {
-//     try {
-//       if (req.file) {
-//         console.log(req.file);
-//         res.json(req.file);
-//       }
-//     } catch (error) {
-//       console.log(error);
-//     }
-//   }
-// );
-
 router.post(
   "/verify",
   validation(verifyEmailSchema),

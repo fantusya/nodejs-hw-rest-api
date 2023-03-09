@@ -1,9 +1,9 @@
 // const { User } = require("../../models");
 
 const getCurrent = async (req, res) => {
-  const { email, subscription, avatarURL, verify, verificationToken } = req.user;
+  const { name, email, subscription, avatarURL } = req.user;
 
-  res.json({ email, subscription, avatarURL, verify, verificationToken });
+  res.json({ name, email, subscription, avatarURL });
 };
 
 module.exports = getCurrent;

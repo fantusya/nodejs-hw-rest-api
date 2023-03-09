@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/modern-normalize/1.1.0/modern-normalize.min.css">
+    <!-- <link rel="stylesheet" href="./css/styles.css"> -->
+    <style type="text/css">
+        :root {
+            --text-cl: #000000;
+            --link-text-cl: #ffffff;
+
+            --bg-box-cl: #b1e5ffab; 
+            --bg-link-cl: #387bb6;
+            --hover-bg-link-cl: #ef4e7b;
+
+            --borderWidth: 5px;
+            --transition-params: 1s cubic-bezier(0.1, 0.46, 0.41, 0.74);
+        }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', 'Roboto', 'Oxygen',
+            'Ubuntu', 'Cantarell', 'Fira Sans', 'Droid Sans', 'Helvetica Neue',
+            sans-serif;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+
+            color: var(--text-cl);;
+            background: #000428;
+            background: linear-gradient(to left, #004e92, #000428);
+        }
+
+        h1,h2,h3,h4,h5,h6,p {
+            margin: 0;
+        }
+
+        .verification__section {
+            padding-top: 100px;
+            padding-bottom: 100px;
+        }
+
+        .verification__container {
+            padding: 0 20px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .verification__info-box {     
+            position: relative;
+        
+            padding: 55px;
+            max-width: 600px;
+
+            text-align: center;
+            font-family: Verdana, Geneva, Tahoma, sans-serif;
+            font-size: 20px;
+            line-height: 2;
+
+            border-radius: var(--borderWidth);
+
+            background-color: var(--bg-box-cl);
+        }
+
+        @media screen and (max-width: 480px) {
+        .verification__info-box {
+                padding: 30px;
+                font-size: 16px;
+        }
+        }
+
+        .verification__info-box::after {
+        content: '';
+        position: absolute;
+        top: calc(-1 * var(--borderWidth));
+        left: calc(-1 * var(--borderWidth));
+
+        height: calc(100% + var(--borderWidth) * 2);
+        width: calc(100% + var(--borderWidth) * 2);
+
+        border-radius: calc(2 * var(--borderWidth));
+        background: linear-gradient(60deg, #f79533, #f37055, #ef4e7b, #a166ab, #5073b8, #1098ad, #07b39b, #6fba82);
+        background-size: 300% 300%;
+
+        z-index: -1;
+
+        animation: animatedgradient 3s ease alternate infinite;
+        }
+
+        .verification__redirect {
+            padding: 7px;
+
+            border-radius: 20px;
+
+            color: var(--link-text-cl);
+            background-color: var(--bg-link-cl);
+            text-decoration: none;
+
+            transition: background-color var(--transition-params);
+        }
+
+        @media screen and (max-width: 480px) {
+        .verification__redirect {
+                padding: 4px;
+        }
+        }
+
+        .verification__redirect:hover,
+        .verification__redirect:focus {
+            background-color:var(--hover-bg-link-cl);
+        }
+
+        @keyframes animatedgradient {
+            0% {
+                background-position: 0% 50%;
+            }
+            50% {
+                background-position: 100% 50%;
+            }
+            100% {
+                background-position: 0% 50%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <main>
+        <section class="section verification__section">
+            <div class="container verification__container">
+                <div class="verification__info-box">
+                    <p>Email verification is successful! <br/>
+                        <a class="verification__redirect" href="http://localhost:3001/goit-react-hw-08-phonebook/login">Click here</a> 
+                        to be redirected to a login page.</p>
+                </div>
+            </div>
+        </section>
+    </main>
+</body>
+</html>

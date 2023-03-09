@@ -4,6 +4,12 @@ const Joi = require("joi");
 
 const userSchema = Schema(
   {
+    name: {
+      type: String,
+      required: [true, "Name is required"],
+      minlength: 2,
+      maxlength: 30,
+    },
     password: {
       type: String,
       required: [true, "Password is required"],
@@ -51,6 +57,7 @@ userSchema.methods.comparePassword = function (password) {
 };
 
 const joiRegisterSchema = Joi.object({
+  name: Joi.string().min(2).max(30).required(),
   password: Joi.string().required(),
   email: Joi.string().required(),
   subscription: Joi.string().valid("starter", "pro", "business"),

@@ -16,7 +16,7 @@ const resendVerifyEmail = async (req, res) => {
   const mailBody = {
     to: email,
     subject: "Confirm Your Email",
-    html: `<a target="_blank" href="https://phonebook-r7sa.onrender.com/api/users/verify/${user.verificationToken}">Click here to confirm your email.</a>`,
+    html: `<a target="_blank" href="https://phonebook-1fo3.onrender.com/api/users/verify/${user.verificationToken}">Click here to confirm your email.</a>`,
   };
   await sendEmail(mailBody);
 
